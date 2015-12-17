@@ -1,12 +1,21 @@
 <html>
 <!-- Configuration section - To be added Later-->
+<?php
 
+	// set this to the folder containing your MP3 files
+	// Ex. $curr_dir = '/home/deven/my_mp3s/';
+	$curr_dir = null;
+
+?>
 
 
 <!-- Developer only section -->
 <?php
 
-	$curr_dir = getcwd();
+	if (! isset($curr_dir)) {
+		$curr_dir = getcwd();
+	}
+
 	$thelist = '';
 	if ($handle = opendir($curr_dir)) {
 	    while (false !== ($file = readdir($handle))) {
