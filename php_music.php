@@ -19,8 +19,12 @@
 	$thelist = '';
 	if ($handle = opendir($curr_dir)) {
 	    while (false !== ($file = readdir($handle))) {
+	        $extension = strtolower(substr($file, strrpos($file, '.') + 1));
+
 	        if ($file != "." && $file != ".."
-	        	&& strtolower(substr($file, strrpos($file, '.') + 1)) == 'mp3'
+	        	&& ( $extension == 'mp3'
+	        	|| $extension == 'ogg'
+	        	|| $extension == 'wav')
 	       	) {
 	            $thelist[] = $file;
 	        }
@@ -41,7 +45,9 @@
 	<h3 id="mp3_name"></h3>
 
 	<audio id="audio" controls>
-		<source id="mp3_handle" src="" type="audio/mp3">
+		<source class="player_handles" id="mp3_handle1" src="" type="audio/mp3">
+		<source class="player_handles" id="mp3_handle2" src="" type="audio/wav">
+		<source class="player_handles" id="mp3_handle3" src="" type="audio/ogg">
 		Your browser does not support the audio tag.
 	</audio>
 
@@ -64,7 +70,8 @@
 
 		function play() {
 			if (curr < count_of_mp3s) {
-				document.getElementById("mp3_handle").src = list_mp3s[curr];
+				var handles = document.getElementsByClassName("player_handles");
+				handles[0].src = handles[1].src = handles[2].src = list_mp3s[curr];
 				document.getElementById("audio").load();
 				document.getElementById("audio").play();
 				document.getElementById("mp3_name").innerHTML = list_mp3s[curr];
